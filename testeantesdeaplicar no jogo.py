@@ -18,6 +18,7 @@ vida_lucas = 100
 vida_helena = 90
 vida_inimigo = 80
 
+# efeitos especiais
 efeito_pulso = 0
 efeito_pressao = 0
 
@@ -41,11 +42,13 @@ for i in range(1, 6):
     print(f"vida do jogador: {vida_jogador}")
     print(f"vida da marionete quebrada: {vida_inimigo}")
 
+    # DANO PERSISTENTE DO PULSO DE LUZ
     if efeito_pulso > 0:
         vida_inimigo -= 10
         efeito_pulso -= 1
         print("o pulso de luz causou mais 10 de dano continuo!")
 
+    # PRESSAO PSICOLOGICA MULTI HIT (10, 10, 10, 10)
     if efeito_pressao > 0:
 
         for i in range(4):
@@ -55,10 +58,12 @@ for i in range(1, 6):
 
         efeito_pressao = 0
 
+    # verifica morte do inimigo
     if vida_inimigo <= 0:
         print("a marionete quebrada foi derrotada!")
         break
 
+    # ATAQUES DO JOGADOR
     if personagem == 1:
 
         print("escolha seu ataque:")
@@ -112,6 +117,7 @@ for i in range(1, 6):
             dano = 0
             print("ataque invalido")
 
+    # aplica dano normal
     vida_inimigo -= dano
 
     if vida_inimigo <= 0:
@@ -120,6 +126,7 @@ for i in range(1, 6):
 
     time.sleep(2)
 
+    # VEZ DO INIMIGO
     print("\nvez da marionete quebrada")
 
     ataque_inimigo = random.randint(1, 3)
