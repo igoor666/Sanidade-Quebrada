@@ -1,6 +1,7 @@
-print("sanidade quebrada")
 print("///////////////////////////////////////////")
-print("bem vindo ao jogo")
+print("////////////sanidade quebrada//////////////")
+print("///////////////////////////////////////////")
+print("////////////bem vindo ao jogo//////////////")
 print("///////////////////////////////////////////")
 print("o jogo se passa em um teatro abandonado onde os personagens foram explorar ate que eles se deparam com uma marionete que se move e ela os ataca")
 print("///////////////////////////////////////////")
@@ -13,21 +14,24 @@ import time
 
 print("escolha seu personagem: 1 para lucas, 2 para helena")
 personagem = int(input())
+dados_batalha = {
+"vida_lucas": 100,
+"vida_helena": 90,
+"vida_inimigo": 110,
 
-vida_lucas = 100
-vida_helena = 90
-vida_inimigo = 80
-
-efeito_pulso = 0
-efeito_pressao = 0
+"ataque":[
+ ("efeito_pulso", 0)
+ ("efeito_pressao",0)
+]
+}
 
 if personagem == 1:
     print("voce escolheu lucas")
-    vida_jogador = vida_lucas
+    vida_jogador = {dados_batalha("vida_lucas")}
 
 elif personagem == 2:
     print("voce escolheu helena")
-    vida_jogador = vida_helena
+    vida_jogador ={dados_batalha("vida_helena")}
 
 else:
     print("personagem invalido")
