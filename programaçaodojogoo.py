@@ -1,152 +1,321 @@
+import random
+import time
+
 print("///////////////////////////////////////////")
 print("////////////sanidade quebrada//////////////")
 print("///////////////////////////////////////////")
 print("////////////bem vindo ao jogo//////////////")
 print("///////////////////////////////////////////")
-print("o jogo se passa em um teatro abandonado onde os personagens foram explorar ate que eles se deparam com uma marionete que se move e ela os ataca")
-print("///////////////////////////////////////////")
-print("personagem 1: lucas")
-print("personagem 2: helena")
-print("inimigo: marionete quebrada")
 
-import random
-import time
+personagens = {
 
-print("escolha seu personagem: 1 para lucas, 2 para helena")
-personagem = int(input())
-dados_batalha = {
-"vida_lucas": 100,
-"vida_helena": 90,
-"vida_inimigo": 110,
+    1: {
+        "nome": "lucas",
+        "vida": 100,
 
-"ataque":[
- ("efeito_pulso", 0)
- ("efeito_pressao",0)
-]
+        "ataques": [
+
+            {
+                "nome": "golpe direto",
+                "dano": 25
+            },
+
+            {
+                "nome": "pulso de luz",
+                "dano": 20,
+                "efeito": "pulso"
+            },
+
+            {
+                "nome": "colapso controlado",
+                "dano": 50,
+                "sanidade_max": 40
+            }
+        ]
+    },
+
+    2: {
+        "nome": "helena",
+        "vida": 90,
+
+        "ataques": [
+
+            {
+                "nome": "golpe com objeto",
+                "dano": 25
+            },
+
+            {
+                "nome": "movimento rapido",
+                "dano": 30
+            },
+
+            {
+                "nome": "pressao psicologica",
+                "dano": 0,
+                "efeito": "pressao",
+                "sanidade_max": 40
+            }
+        ]
+    }
 }
 
-if personagem == 1:
-    print("voce escolheu lucas")
-    vida_jogador = {dados_batalha("vida_lucas")}
+inimigo = {
+    "nome": "marionete quebrada",
+    "vida": 120
+}
 
-elif personagem == 2:
-    print("voce escolheu helena")
-    vida_jogador ={dados_batalha("vida_helena")}
+ataques_inimigo = [
 
-else:
+    {
+        "nome": "imitar",
+        "dano": 20,
+        "sanidade": 15
+    },
+
+    {
+        "nome": "fios invisiveis",
+        "dano": 15,
+        "sanidade": 15
+    },
+
+    {
+        "nome": "controle forcado",
+        "dano": 30,
+        "sanidade": 25
+    }
+]
+
+itens = [
+
+    {
+        "nome": "kit medico",
+        "quantidade": 2,
+        "cura": 35
+    },
+
+    {
+        "nome": "calmante",
+        "quantidade": 2,
+        "sanidade": 30
+    },
+
+    {
+        "nome": "amuleto",
+        "quantidade": 1,
+        "defesa": 10
+    }
+]
+
+print("personagem 1: lucas")
+print("personagem 2: helena")
+
+print("\nescolha seu personagem")
+personagem = int(input())
+
+if personagem not in personagens:
     print("personagem invalido")
     exit()
 
-print("///////////////////////////////////////////")
+jogador = personagens[personagem]
 
-for i in range(1, 6):
+vida_jogador = jogador["vida"]
+vida_inimigo = inimigo["vida"]
 
-    print(f"\nessa e sua {i} rodada")
+sanidade = 100
+
+efeito_pulso = 0
+efeito_pressao = 0
+defesa = 0
+
+print(f"\nvoce escolheu {jogador['nome']}")
+
+for rodada in range(1, 6):
+
+    print("\n///////////////////////////////////////////")
+    print(f"rodada {rodada}")
     print(f"vida do jogador: {vida_jogador}")
-    print(f"vida da marionete quebrada: {vida_inimigo}")
+    print(f"sanidade: {sanidade}")
+    print(f"vida da marionete: {vida_inimigo}")
 
     if efeito_pulso > 0:
         vida_inimigo -= 10
         efeito_pulso -= 1
-        print("o pulso de luz causou mais 10 de dano continuo!")
+
+        print("pulso de luz causou 10 de dano continuo")
 
     if efeito_pressao > 0:
 
         for i in range(4):
+
             vida_inimigo -= 10
-            print("a pressao psicologica causou 10 de dano mental!")
+
+            print("pressao psicologica causou 10 de dano mental")
+
             time.sleep(0.5)
 
         efeito_pressao = 0
 
     if vida_inimigo <= 0:
-        print("a marionete quebrada foi derrotada!")
+        print("a marionete quebrada foi derrotada")
         break
 
-    if personagem == 1:
+    print("\n1 = atacar")
+    print("2 = usar item")
 
-        print("escolha seu ataque:")
-        print("1 para golpe direto")
-        print("2 para pulso de luz")
-        print("3 para colapso controlado")
+    escolha = int(input())
 
-        ataque = int(input())
+    dano = 0
 
-        if ataque == 1:
-            dano = 25
-            print("lucas usou golpe direto e causou 25 de dano")
+    if escolha == 2:
 
-        elif ataque == 2:
-            dano = 20
-            efeito_pulso = 3
-            print("lucas usou pulso de luz e causou 20 de dano")
+        print("\nitens:")
 
-        elif ataque == 3:
-            dano = 50
-            print("lucas usou colapso controlado e causou 50 de dano")
+        for i in range(len(itens)):
 
-        else:
-            dano = 0
-            print("ataque invalido")
+            print(f"{i+1} = {itens[i]['nome']} ({itens[i]['quantidade']})")
 
-    elif personagem == 2:
+        item = int(input())
 
-        print("escolha seu ataque:")
-        print("1 para golpe com objeto")
-        print("2 para movimento rapido")
-        print("3 para pressao psicologica")
+        if item >= 1 and item <= len(itens):
 
-        ataque = int(input())
+            item_escolhido = itens[item - 1]
 
-        if ataque == 1:
-            dano = 25
-            print("helena usou golpe com objeto e causou 25 de dano")
+            if item_escolhido["quantidade"] > 0:
 
-        elif ataque == 2:
-            dano = 30
-            print("helena usou movimento rapido e causou 30 de dano")
+                item_escolhido["quantidade"] -= 1
 
-        elif ataque == 3:
-            dano = 0
-            efeito_pressao = 1
-            print("helena usou pressao psicologica!")
-            print("a mente da marionete esta entrando em colapso!")
+                if item_escolhido["nome"] == "kit medico":
 
-        else:
-            dano = 0
-            print("ataque invalido")
+                    vida_jogador += item_escolhido["cura"]
+
+                    print("vida recuperada")
+
+                elif item_escolhido["nome"] == "calmante":
+
+                    sanidade += item_escolhido["sanidade"]
+
+                    if sanidade > 100:
+                        sanidade = 100
+
+                    print("sanidade recuperada")
+
+                elif item_escolhido["nome"] == "amuleto":
+
+                    defesa = item_escolhido["defesa"]
+
+                    print("o dano recebido sera reduzido")
+
+            else:
+                print("item sem quantidade")
+
+    else:
+
+        print("\nataques:")
+
+        for i in range(len(jogador["ataques"])):
+
+            print(f"{i+1} = {jogador['ataques'][i]['nome']}")
+
+        escolha_ataque = int(input())
+
+        if escolha_ataque >= 1 and escolha_ataque <= len(jogador["ataques"]):
+
+            ataque = jogador["ataques"][escolha_ataque - 1]
+
+            if "sanidade_max" in ataque:
+
+                if sanidade > ataque["sanidade_max"]:
+
+                    print("sanidade muito alta para usar esse ataque")
+
+                    dano = 0
+
+                else:
+
+                    dano = ataque["dano"]
+
+                    print(f"{jogador['nome']} usou {ataque['nome']}")
+
+            else:
+
+                dano = ataque["dano"]
+
+                print(f"{jogador['nome']} usou {ataque['nome']}")
+
+            if "efeito" in ataque:
+
+                if ataque["efeito"] == "pulso":
+
+                    efeito_pulso = 3
+
+                    print("o inimigo sofrera dano continuo")
+
+                elif ataque["efeito"] == "pressao":
+
+                    efeito_pressao = 1
+
+                    print("a mente da marionete esta entrando em colapso")
 
     vida_inimigo -= dano
 
     if vida_inimigo <= 0:
-        print("a marionete quebrada foi derrotada!")
+
+        print("a marionete quebrada foi derrotada")
+
         break
 
-    time.sleep(2)
+    time.sleep(1)
 
     print("\nvez da marionete quebrada")
 
-    ataque_inimigo = random.randint(1, 3)
+    ataque_inimigo = random.choice(ataques_inimigo)
 
-    if ataque_inimigo == 1:
-        dano_inimigo = 20
-        print("a marionete quebrada usou imitar e causou 20 de dano")
+    dano_inimigo = ataque_inimigo["dano"]
 
-    elif ataque_inimigo == 2:
-        dano_inimigo = 15
-        print("a marionete quebrada usou fios invisiveis e causou 15 de dano")
+    perda_sanidade = ataque_inimigo["sanidade"]
 
-    elif ataque_inimigo == 3:
-        dano_inimigo = 30
-        print("a marionete quebrada usou controle forcado e causou 30 de dano")
+    if defesa > 0:
+
+        dano_inimigo -= defesa
+
+        if dano_inimigo < 0:
+            dano_inimigo = 0
+
+        print("o amuleto reduziu o dano")
+
+    print(f"a marionete usou {ataque_inimigo['nome']}")
+
+    print(f"causou {dano_inimigo} de dano")
 
     vida_jogador -= dano_inimigo
 
+    sanidade -= perda_sanidade
+
+    if sanidade < 0:
+        sanidade = 0
+
+    print(f"sua sanidade caiu {perda_sanidade}")
+
+
+    if sanidade <= 20:
+
+        print("sua mente esta entrando em colapso...")
+
     if vida_jogador <= 0:
-        print("voce foi derrotado pela marionete quebrada...")
+
+        print("voce foi derrotado")
+
+        break
+
+    if sanidade <= 0:
+
+        print("voce enlouqueceu")
+
         break
 
 print("\n///////////////////////////////////////////")
-print(f"vida final do jogador: {vida_jogador}")
-print(f"vida final da marionete quebrada: {vida_inimigo}")
 print("fim da batalha")
+print(f"vida final: {vida_jogador}")
+print(f"sanidade final: {sanidade}")
+print(f"vida da marionete: {vida_inimigo}")           
